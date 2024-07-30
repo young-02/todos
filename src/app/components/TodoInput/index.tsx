@@ -1,28 +1,35 @@
 import { useState } from "react";
 
 interface SetTodoListProp {
-  setTodoList: (todo: ITodoItem) => void;
+  addTodo?: (content: string) => void;
+  isEditing?: boolean;
+  editContent?: string;
+  editTodo?: (todo: string) => void;
 }
 
-const TodoInput = ({ setTodoList }: SetTodoListProp) => {
+const TodoInput = ({ addTodo, isEditing, editTodo }: SetTodoListProp) => {
   const [content, setContent] = useState<string>("");
 
   return (
-    <div className="py-2">
+    <div className={`py-2 ${isEditing && "p-2 "}`}>
       <input
-        className="w-full border-b-2 outline-0 p-1"
+        className={`w-full border-b-2 outline-0 p-1 `}
         value={content}
+        onBlur={(e) => {
+          if (e.currentTarget === e.target) {
+            editTodo && editTodo(content);
+          }
+        }}
         onChange={(e) => setContent(e.target.value)}
         placeholder="할일을 입력해 주세요"
         onKeyUp={(e) => {
           if (content === "") return;
           if (e.key !== "Enter" && e.key !== "NumpadEnter") return;
-          setTodoList({
-            id: "0",
-            content,
-            completed: false,
-            editing: false,
-          });
+          if (isEditing) {
+            editTodo && editTodo(content);
+          } else {
+            addTodo && addTodo(content);
+          }
           setContent("");
         }}
       />
