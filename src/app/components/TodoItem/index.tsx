@@ -3,6 +3,7 @@ import Checkbox from "../Checkbox";
 interface todoProps {
   todo: ITodoItem;
 }
+
 const TodoItem = ({ todo }: todoProps) => {
   return (
     <div className="flex items-center gap-3 border-b-2  p-2 w-full">
