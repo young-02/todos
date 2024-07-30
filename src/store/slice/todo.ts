@@ -1,15 +1,9 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { TodoState } from "./types";
+import { loadTodoData, saveTodoData } from "../localStorage";
 
 export const initialState: TodoState = {
-  todoList: [
-    {
-      id: "1",
-      content: "redux ",
-      completed: false,
-      editing: false,
-    },
-  ],
+  todoList: loadTodoData(),
 };
 
 export const todoSlice = createSlice({
@@ -19,6 +13,7 @@ export const todoSlice = createSlice({
     addTodo: {
       reducer: (state, action: PayloadAction<ITodoItem>) => {
         state.todoList.push(action.payload);
+        saveTodoData(state.todoList);
       },
       prepare: (content: string) => {
         const id = nanoid();
@@ -38,6 +33,7 @@ export const todoSlice = createSlice({
       if (todo) {
         todo.completed = !todo.completed;
       }
+      saveTodoData(state.todoList);
     },
     editModeTodo(state, action: PayloadAction<{ id: string }>) {
       const id = action.payload.id;
@@ -59,11 +55,13 @@ export const todoSlice = createSlice({
       if (todo) {
         todo.content = content;
       }
+      saveTodoData(state.todoList);
     },
     deleteTodo(state, action: PayloadAction<{ id: string }>) {
       const id = action.payload.id;
       const filteredTodos = state.todoList.filter((todo) => todo.id !== id);
       state.todoList = filteredTodos;
+      saveTodoData(state.todoList);
     },
   },
 });

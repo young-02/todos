@@ -7,8 +7,13 @@ interface SetTodoListProp {
   editTodo?: (todo: string) => void;
 }
 
-const TodoInput = ({ addTodo, isEditing, editTodo }: SetTodoListProp) => {
-  const [content, setContent] = useState<string>("");
+const TodoInput = ({
+  addTodo,
+  isEditing,
+  editTodo,
+  editContent,
+}: SetTodoListProp) => {
+  const [content, setContent] = useState<string>(editContent || "");
 
   return (
     <div className={`py-2 ${isEditing && "p-2 "}`}>

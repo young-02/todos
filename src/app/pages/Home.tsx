@@ -1,14 +1,14 @@
 import TodoInput from "../components/TodoInput";
 import TodoItem from "../components/TodoItem";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../store/store";
 import {
   addTodo,
   checkTodo,
   deleteTodo,
   editTodo,
   editModeTodo,
-} from "../../redux/slice/todo";
+} from "../../store/slice/todo";
 
 const Home = () => {
   const todoList = useSelector((state: RootState) => state.todo.todoList);
